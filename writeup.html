@@ -13,6 +13,10 @@
 
 <p><strong>Build a Traffic Sign Recognition Convolutional Neural Network</strong></p>
 
+<p><a href="http://www.udacity.com/drive"><img src="https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg" alt="Udacity - Self-Driving Car NanoDegree" title=""></a></p>
+
+<p>This project is part of Udacity’s Self-Driving car Nanodegree</p>
+
 <p>The goals / steps of this project are the following:</p>
 
 <ul>
@@ -54,6 +58,8 @@
 
 <p>As we can see, the images are of varying brightness, orientation, size and clarity.</p>
 
+
+
 <h3 id="the-model-architecture">The Model Architecture</h3>
 
 <p>The following model architecture is based off of Pierre Sermanet and Yann LeCun’s <a href="http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf">paper on the issue</a>.</p>
@@ -78,9 +84,13 @@
 
 <p>As we can see, the mean of the dataset is at zero and its distribution spreads between -1 and 1.</p>
 
+
+
 <h5 id="data-augmentation">Data augmentation</h5>
 
 <p>One last optional step was the augmentation of the dataset, I tried implementing it by reusing Keras’ <em>ImageDataGenerator</em> in order to build a real time image augmentation pipeline, the idea worked but failed during training due to memory errors. I finally decided against data augmentation in the favour of time. If the research paper is to be believed, this should not have a major effect on our model’s accuracy. </p>
+
+
 
 <h4 id="2-model-architecture">2. Model Architecture</h4>
 
@@ -175,15 +185,21 @@
 </tbody></table>
 
 
+
+
 <h4 id="3-model-training">3. Model Training</h4>
 
 <p>A graph of the training and validation loss over all the training epochs, as we can see, there are signs of mild overfitting: <br>
 <img src="img/loss_graph.png" alt="Loss graph" title=""> <br>
 <em>NOTE: Loss does not start at 0, that is a code reuse error</em></p>
 
+
+
 <h5 id="epochs">Epochs</h5>
 
 <p>To train the model, I used a total of 35 epochs. This value was found through experimentation. As we can see, the loss slightly increases towards the end showing early signs of overtraining.</p>
+
+
 
 <h5 id="batch-size">Batch size</h5>
 
@@ -219,18 +235,26 @@
 <li>test set accuracy of <strong>95%</strong></li>
 </ul>
 
+
+
 <h5 id="the-chosen-architecture">The chosen architecture</h5>
 
 <p>After a lot of trial and error I decided to base my architecture on Sermanet and LeCun’s paper. Reusing my LeNet implementation and adding a side layer which feeds high level feature filters directly to the fully connected layer, this technique showed a direct increase in accuracy.</p>
+
+
 
 <h5 id="architectures-relevancy">Architecture’s relevancy</h5>
 
 <p>Feeding the image’s higher level features directly to the fully connected layer forces the classifier to look at higher level features such as the general shape and borders. Traffic signs use high level features such as shape and colour to help humans easily and quickly recognize them, it is a quintessential part of their designs. This makes the high level feature focus based architecture extremely relevant to the task at hand.</p>
 
+
+
 <h5 id="accuracy">Accuracy</h5>
 
 <p>A 100% training accuracy shows that the neural net can recall all the images it has already been fed, this is only good if our validation accuracy is not too far behind. During training the difference between the training and validation accuracy hovered around 4% meaning that the classifier is in fact learning about patterns in traffic signs and is not fitting to an abstract pattern in our training data. The testing accuracy is just behind our final validation accuracy by 1% proving that our classifier is able to classify traffic signs. <br>
 <img src="img/accuracy.png" alt="Accuracy graph during training" title=""></p>
+
+
 
 <h3 id="testing-on-new-images">Testing on New Images</h3>
 
@@ -243,6 +267,8 @@
 <p><img src="img/web_imgs.png" alt="German traffic signs from the web" title=""></p>
 
 <p>All the images show clear traffic signs with varying backgrounds, brightness and orientation.</p>
+
+
 
 <h4 id="2-prediction">2. Prediction</h4>
 
@@ -280,6 +306,8 @@
 
 <p>The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favourably to the accuracy on the test set. The only wrong prediction of a stop sign being a yield sign shows that our self-driving car has the ability of replacing taxis in pretty much any major city in the world.</p>
 
+
+
 <h4 id="3-softmax-probability">3. Softmax Probability</h4>
 
 <p>Taking a look at the softmax probability of each prediction shows that our neural net is pretty certain about its outputs with all probabilities being &gt; 95%. <br>
@@ -288,6 +316,8 @@
 <img src="img/softmax_preds_2.png" alt="Softmax probability of predictions" title=""> <br>
 <img src="img/softmax_preds_3.png" alt="Softmax probability of predictions" title=""> <br>
 <img src="img/softmax_preds_4.png" alt="Softmax probability of predictions" title=""></p>
+
+
 
 <h3 id="future-improvements">Future improvements</h3>
 
@@ -305,9 +335,13 @@
 
 <p>The use of data augmentation could greatly help the accuracy on classes with a low amount of training examples. </p>
 
+
+
 <h5 id="architecture">Architecture</h5>
 
 <p>The use of a <strong>deeper neural net architecture</strong> could probably help achieve a better accuracy as it would allow the neural net to build a deeper feature map which would help it classify better. This comes at the cost of more trainable parameters. The use of <strong>inception modules</strong> from the original GoogLeNet could be very beneficial for this specific task</p>
+
+
 
 <h5 id="training">Training</h5>
 
@@ -317,5 +351,9 @@
 
 <h5 id="testing">Testing</h5>
 
-<p>Having a <strong>look at false positives</strong> from our testing set as well as a <strong>per class test accuracy</strong> could give us more insight for future improvements</p></div></body>
+<p>Having a <strong>look at false positives</strong> from our testing set as well as a <strong>per class test accuracy</strong> could give us more insight for future improvements</p>
+
+<hr>
+
+<p><a href="https://github.com/Charles-Catta/German-Traffic-Sign-Classifier">Return to GitHub &gt;&gt;</a></p></div></body>
 </html>

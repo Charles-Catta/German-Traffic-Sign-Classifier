@@ -3,6 +3,10 @@
 
 **Build a Traffic Sign Recognition Convolutional Neural Network**
 
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+
+This project is part of Udacity's Self-Driving car Nanodegree
+
 The goals / steps of this project are the following:
 
 - Load the data set (see below for links to the project data set)
@@ -173,3 +177,7 @@ The use of __learning rate decay__ and __L2 regularization__ with an optimal bet
 ##### Testing
 Having a __look at false positives__ from our testing set as well as a __per class test accuracy__ could give us more insight for future improvements
 
+
+----
+
+[Return to GitHub >>](https://github.com/Charles-Catta/German-Traffic-Sign-Classifier)
