@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traffic Sign Recognition</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><h1 id="traffic-sign-classifier-cnn"><strong>Traffic Sign Classifier CNN</strong></h1>
+
+<hr>
+
+<p><strong>Build a Traffic Sign Recognition Convolutional Neural Network</strong></p>
+
+<p>The goals / steps of this project are the following:</p>
+
+<ul>
+<li>Load the data set (see below for links to the project data set)</li>
+<li>Explore, summarize and visualize the data set</li>
+<li>Design, train and test a model architecture</li>
+<li>Use the model to make predictions on new images</li>
+<li>Analyze the softmax probabilities of the new images</li>
+<li>Summarize the results with a written report</li>
+</ul>
+
+<h3 id="data-set-summary-exploration">Data Set Summary &amp; Exploration</h3>
+
+
+
+<h4 id="1-dataset-summary">1. Dataset summary</h4>
+
+<p>The dataset used comes from the <a href="http://benchmark.ini.rub.de/?section=gtsrb&amp;subsection=dataset"><em>GTSRB</em></a> (German Traffic Sign Recognition Benchmark). It contains <strong>51839</strong> <strong>32x32x3</strong> images split amongst <strong>43</strong> different classes of German traffic signs. The dataset is split as follows:</p>
+
+<ul>
+<li>34799 training examples (67.13%)</li>
+<li>12630 testing examples (24.36%)</li>
+<li>4410 validation examples (8.51%)</li>
+</ul>
+
+<p>The dataset is split unevenly amongst its classes, the lowest frequency of training examples is <strong>180</strong> images and the highest is <strong>2010</strong> images. The average frequency over all the classes is <strong>809</strong> training examples per class.</p>
+
+
+
+<h4 id="2-exploratory-visualization-of-the-dataset">2. Exploratory visualization of the dataset.</h4>
+
+<p>The following bar chart shows the frequency of training examples over all the dataset’s classes:</p>
+
+<p><img src="img/frequency.png" alt="Frequency bar chart" title=""></p>
+
+<p>A set of 80 randomly selected images from the training dataset gives us an idea of what we are dealing with:</p>
+
+<p><img src="img/test_images.png" alt="Training images" title=""></p>
+
+<p>As we can see, the images are of varying brightness, orientation, size and clarity.</p>
+
+<h3 id="the-model-architecture">The Model Architecture</h3>
+
+<p>The following model architecture is based off of Pierre Sermanet and Yann LeCun’s <a href="http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf">paper on the issue</a>.</p>
+
+
+
+<h4 id="1-data-preprocessing">1. Data preprocessing</h4>
+
+
+
+<h5 id="grayscale">Grayscale</h5>
+
+<p>In their introduction, they briefly mention that they were able to reach 99.2% accuracy using grayscale images. The advantage of grayscale images is that they have a lower dimensionality (3 vs 1) to start with allowing for a lower amount of trainable parameters. This not only allows our neural network to train faster but also allows us to lower our learning rate for better convergence at a lower time cost.</p>
+
+
+
+<h5 id="data-normalization">Data normalization</h5>
+
+<p>All the images in the dataset are normalized to have 0 mean and equal variance. In order to verify the process, we can plot the mean and variance of each image:</p>
+
+<p><img src="img/img_normalized.png" alt="Normal Distribution of images" title=""></p>
+
+<p>As we can see, the mean of the dataset is at zero and its distribution spreads between -1 and 1.</p>
+
+<h5 id="data-augmentation">Data augmentation</h5>
+
+<p>One last optional step was the augmentation of the dataset, I tried implementing it by reusing Keras’ <em>ImageDataGenerator</em> in order to build a real time image augmentation pipeline, the idea worked but failed during training due to memory errors. I finally decided against data augmentation in the favour of time. If the research paper is to be believed, this should not have a major effect on our model’s accuracy. </p>
+
+<h4 id="2-model-architecture">2. Model Architecture</h4>
+
+<p>My model is based on the Sermanet LeCun paper’s model: <br>
+<img src="img/model_architecture.jpg" alt="Model Architecture" title=""></p>
+
+<p>It consists of the following layers</p>
+
+<table>
+<thead>
+<tr>
+  <th align="center">Layer</th>
+  <th align="center">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="center">Input</td>
+  <td align="center">32x32x1 Grayscale &amp; normalized image</td>
+</tr>
+<tr>
+  <td align="center">Convolution 5x5</td>
+  <td align="center">1x1 stride, valid padding, outputs 28x28x20</td>
+</tr>
+<tr>
+  <td align="center">RELU</td>
+  <td align="center"></td>
+</tr>
+<tr>
+  <td align="center">Dropout</td>
+  <td align="center">Dropout layer to decrease overfitting</td>
+</tr>
+<tr>
+  <td align="center">Max pooling</td>
+  <td align="center">2x2 stride,  outputs 14x14x20</td>
+</tr>
+<tr>
+  <td align="center">Flattening</td>
+  <td align="center">Flattens the layer for later use, outputs 1x3920</td>
+</tr>
+<tr>
+  <td align="center">Convolution 5x5</td>
+  <td align="center">on the previous max pool layer, 1x1 stride, valid padding, outputs 10x10x40</td>
+</tr>
+<tr>
+  <td align="center">RELU</td>
+  <td align="center"></td>
+</tr>
+<tr>
+  <td align="center">Max pooling</td>
+  <td align="center">2x2 stride,  outputs 5x5x40</td>
+</tr>
+<tr>
+  <td align="center">Flattening</td>
+  <td align="center">Flattens the 5x5x40 layer, outputs 1x1000</td>
+</tr>
+<tr>
+  <td align="center">Concatenation</td>
+  <td align="center">Concatenates the two flat layers, outputs 1x4920</td>
+</tr>
+<tr>
+  <td align="center">Dropout</td>
+  <td align="center">Dropout layer to decrease overfitting</td>
+</tr>
+<tr>
+  <td align="center">Fully connected</td>
+  <td align="center">500 neurons fully connected layer</td>
+</tr>
+<tr>
+  <td align="center">RELU</td>
+  <td align="center"></td>
+</tr>
+<tr>
+  <td align="center">Dropout</td>
+  <td align="center">Dropout layer to decrease overfitting</td>
+</tr>
+<tr>
+  <td align="center">Fully connected</td>
+  <td align="center">200 neurons fully connected layer</td>
+</tr>
+<tr>
+  <td align="center">RELU</td>
+  <td align="center"></td>
+</tr>
+<tr>
+  <td align="center">Dropout</td>
+  <td align="center">Dropout layer to decrease overfitting</td>
+</tr>
+<tr>
+  <td align="center">Fully connected</td>
+  <td align="center">Output layer, size is equal to the number of classes to predict</td>
+</tr>
+</tbody></table>
+
+
+<h4 id="3-model-training">3. Model Training</h4>
+
+<p>A graph of the training and validation loss over all the training epochs, as we can see, there are signs of mild overfitting: <br>
+<img src="img/loss_graph.png" alt="Loss graph" title=""> <br>
+<em>NOTE: Loss does not start at 0, that is a code reuse error</em></p>
+
+<h5 id="epochs">Epochs</h5>
+
+<p>To train the model, I used a total of 35 epochs. This value was found through experimentation. As we can see, the loss slightly increases towards the end showing early signs of overtraining.</p>
+
+<h5 id="batch-size">Batch size</h5>
+
+<p>I use a batch size of 256 images and reshuffle the data at every epoch. The batch size did not prove to change much in the training accuracy.</p>
+
+
+
+<h5 id="training-rate">Training rate</h5>
+
+<p>Through experimentation I found the training rate to be crucial in achieving good results, a higher training rate made the neural net’s trainable parameters skip over their optimal values leading to spikes and drops in the validation loss. A decaying training rate would be ideal but the amount of trial and error needed to find the optimal value and function proved more difficult than I previously thought.</p>
+
+
+
+<h5 id="dropout-rate">Dropout rate</h5>
+
+<p>The use of dropout layers greatly aided in overfitting prevention, I tried turning off dropout completely after a certain number of epochs but the neural net would overfit to the training data very fast. I decided to only lower the dropout rate after around 25 training epochs.</p>
+
+
+
+<h5 id="l2-regularization">L2 regularization</h5>
+
+<p>The use of L2 regularization did not make an observable difference over the course of training, it did however dramatically increase the required training time. The lack of overfitting prevention may be due to a non-optimal beta value but the training time stood as an obstacle when trying to find its optimal value. This technique should be revisited once I get TensorFlow working on my GPU.</p>
+
+
+
+<h4 id="4-approach-to-finding-the-right-architecture">4. Approach to finding the right architecture</h4>
+
+<p>My final model results were:</p>
+
+<ul>
+<li>training set accuracy of <strong>100%</strong></li>
+<li>validation set accuracy of <strong>96.6%</strong></li>
+<li>test set accuracy of <strong>95%</strong></li>
+</ul>
+
+<h5 id="the-chosen-architecture">The chosen architecture</h5>
+
+<p>After a lot of trial and error I decided to base my architecture on Sermanet and LeCun’s paper. Reusing my LeNet implementation and adding a side layer which feeds high level feature filters directly to the fully connected layer, this technique showed a direct increase in accuracy.</p>
+
+<h5 id="architectures-relevancy">Architecture’s relevancy</h5>
+
+<p>Feeding the image’s higher level features directly to the fully connected layer forces the classifier to look at higher level features such as the general shape and borders. Traffic signs use high level features such as shape and colour to help humans easily and quickly recognize them, it is a quintessential part of their designs. This makes the high level feature focus based architecture extremely relevant to the task at hand.</p>
+
+<h5 id="accuracy">Accuracy</h5>
+
+<p>A 100% training accuracy shows that the neural net can recall all the images it has already been fed, this is only good if our validation accuracy is not too far behind. During training the difference between the training and validation accuracy hovered around 4% meaning that the classifier is in fact learning about patterns in traffic signs and is not fitting to an abstract pattern in our training data. The testing accuracy is just behind our final validation accuracy by 1% proving that our classifier is able to classify traffic signs. <br>
+<img src="img/accuracy.png" alt="Accuracy graph during training" title=""></p>
+
+<h3 id="testing-on-new-images">Testing on New Images</h3>
+
+
+
+<h4 id="1-five-german-traffic-signs-from-the-internet">1. Five German traffic signs from the internet</h4>
+
+<p>Here are five German traffic signs that I found on the web:</p>
+
+<p><img src="img/web_imgs.png" alt="German traffic signs from the web" title=""></p>
+
+<p>All the images show clear traffic signs with varying backgrounds, brightness and orientation.</p>
+
+<h4 id="2-prediction">2. Prediction</h4>
+
+<p>Here are the results of the prediction:</p>
+
+<table>
+<thead>
+<tr>
+  <th align="center">Image</th>
+  <th align="center">Prediction</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="center">Right of way at next intersection</td>
+  <td align="center">Right of way at next intersection</td>
+</tr>
+<tr>
+  <td align="center">General caution</td>
+  <td align="center">General caution</td>
+</tr>
+<tr>
+  <td align="center">Priority road</td>
+  <td align="center">Priority road</td>
+</tr>
+<tr>
+  <td align="center">Road work</td>
+  <td align="center">Road work</td>
+</tr>
+<tr>
+  <td align="center">Stop</td>
+  <td align="center">Yield</td>
+</tr>
+</tbody></table>
+
+
+<p>The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favourably to the accuracy on the test set. The only wrong prediction of a stop sign being a yield sign shows that our self-driving car has the ability of replacing taxis in pretty much any major city in the world.</p>
+
+<h4 id="3-softmax-probability">3. Softmax Probability</h4>
+
+<p>Taking a look at the softmax probability of each prediction shows that our neural net is pretty certain about its outputs with all probabilities being &gt; 95%. <br>
+<img src="img/softmax_preds_0.png" alt="Softmax probability of predictions" title=""> <br>
+<img src="img/softmax_preds_1.png" alt="Softmax probability of predictions" title=""> <br>
+<img src="img/softmax_preds_2.png" alt="Softmax probability of predictions" title=""> <br>
+<img src="img/softmax_preds_3.png" alt="Softmax probability of predictions" title=""> <br>
+<img src="img/softmax_preds_4.png" alt="Softmax probability of predictions" title=""></p>
+
+<h3 id="future-improvements">Future improvements</h3>
+
+<p>The current model shows an acceptable 95% accuracy. However, a lot more can be done to achieve a higher accuracy.</p>
+
+
+
+<h5 id="data-preprocessing">Data Preprocessing</h5>
+
+<p>The use of more complex data normalization techniques such as <strong>global and local contrast normalization</strong> and <strong>PCA whitening</strong> can help lower false positives that rise from data normalization miss-haps. </p>
+
+
+
+<h5 id="data-augmentation-1">Data Augmentation</h5>
+
+<p>The use of data augmentation could greatly help the accuracy on classes with a low amount of training examples. </p>
+
+<h5 id="architecture">Architecture</h5>
+
+<p>The use of a <strong>deeper neural net architecture</strong> could probably help achieve a better accuracy as it would allow the neural net to build a deeper feature map which would help it classify better. This comes at the cost of more trainable parameters. The use of <strong>inception modules</strong> from the original GoogLeNet could be very beneficial for this specific task</p>
+
+<h5 id="training">Training</h5>
+
+<p>The use of <strong>learning rate decay</strong> and <strong>L2 regularization</strong> with an optimal beta value can help our neural net’s weights converge to their more optimal values while lowering overfitting and overtraining.</p>
+
+
+
+<h5 id="testing">Testing</h5>
+
+<p>Having a <strong>look at false positives</strong> from our testing set as well as a <strong>per class test accuracy</strong> could give us more insight for future improvements</p></div></body>
+</html>

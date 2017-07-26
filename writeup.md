@@ -28,11 +28,11 @@ The dataset is split unevenly amongst its classes, the lowest frequency of train
 
 The following bar chart shows the frequency of training examples over all the dataset's classes:
 
-![Frequency bar chart][img/frequency.png]
+![Frequency bar chart](img/frequency.png)
 
 A set of 80 randomly selected images from the training dataset gives us an idea of what we are dealing with:
 
- ![Frequency bar chart][img/test_images.png]
+ ![Training images](img/test_images.png)
 
 As we can see, the images are of varying brightness, orientation, size and clarity.
 
@@ -58,7 +58,7 @@ One last optional step was the augmentation of the dataset, I tried implementing
 ####2. Model Architecture
 
 My model is based on the Sermanet LeCun paper's model:
-![Model Architecture](img/model_architecture.png)
+![Model Architecture](img/model_architecture.jpg)
 
 It consists of the following layers
 
@@ -119,6 +119,7 @@ Feeding the image's higher level features directly to the fully connected layer 
 
 ##### Accuracy
 A 100% training accuracy shows that the neural net can recall all the images it has already been fed, this is only good if our validation accuracy is not too far behind. During training the difference between the training and validation accuracy hovered around 4% meaning that the classifier is in fact learning about patterns in traffic signs and is not fitting to an abstract pattern in our training data. The testing accuracy is just behind our final validation accuracy by 1% proving that our classifier is able to classify traffic signs.
+![Accuracy graph during training](img/accuracy.png)
 
 ###Testing on New Images
 
@@ -148,7 +149,11 @@ The model was able to correctly guess 4 of the 5 traffic signs, which gives an a
 ####3. Softmax Probability
 
 Taking a look at the softmax probability of each prediction shows that our neural net is pretty certain about its outputs with all probabilities being > 95%.
-![Softmax probability of all predictions](img/softmax_preds.png)
+![Softmax probability of predictions](img/softmax_preds_0.png)
+![Softmax probability of predictions](img/softmax_preds_1.png)
+![Softmax probability of predictions](img/softmax_preds_2.png)
+![Softmax probability of predictions](img/softmax_preds_3.png)
+![Softmax probability of predictions](img/softmax_preds_4.png)
 
 ### Future improvements
 The current model shows an acceptable 95% accuracy. However, a lot more can be done to achieve a higher accuracy.
