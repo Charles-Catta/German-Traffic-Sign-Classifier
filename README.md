@@ -20,6 +20,8 @@ The easiest way to run the Jupyter notebook is by using [Docker](https://store.d
 Run the following to get started, this downloads a Docker container with all the required dependencies
 
 ```sh
+git clone https://github.com/Charles-Catta/German-Traffic-Sign-Classifier.git
+cd German-Traffic-Sign-Classifier
 docker run -it --rm -p 8888:8888 -v `pwd`:/src udacity/carnd-term1-starter-kit
 ```
 
