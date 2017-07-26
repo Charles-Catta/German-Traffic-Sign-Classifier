@@ -24,3 +24,9 @@ docker run -it --rm -p 8888:8888 -v `pwd`:/src udacity/carnd-term1-starter-kit
 ```
 
 A link with an access token should be outputed to the console.
+
+
+### Quick links
+
+[Code](https://nbviewer.jupyter.org/github/Charles-Catta/German-Traffic-Sign-Classifier/blob/master/Traffic_Sign_Classifier.ipynb) (This is a jupyter notebook)
+[Write up](https://htmlpreview.github.io/?https://github.com/Charles-Catta/German-Traffic-Sign-Classifier/blob/master/writeup.html)
