@@ -17,15 +17,23 @@ The goals / steps of this project are the following:
 ### Running to code
 The easiest way to run the Jupyter notebook is by using [Docker](https://store.docker.com/search?type=edition&offering=community)
 
-Run the following to get started, this downloads a Docker container with all the required dependencies
+Run the following to get started, this will pull a Docker container with all the required dependencies
 
 ```sh
 git clone https://github.com/Charles-Catta/German-Traffic-Sign-Classifier.git
 
 cd German-Traffic-Sign-Classifier
-
+```
+#### CPU only
+```sh
 docker run -it --rm -p 8888:8888 -v `pwd`:/src udacity/carnd-term1-starter-kit
 ```
+
+#### With GPU support
+```sh
+nvidia-docker run -it --rm -p 8888:8888 -v `pwd`:/src udacity/carnd-term1-starter-kit
+```
+Make sure that [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) is installed
 
 A link with an access token should be outputed to the console.
 
