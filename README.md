@@ -30,12 +30,12 @@ docker run -it --rm -p 8888:8888 -v `pwd`:/src udacity/carnd-term1-starter-kit
 ```
 
 #### With GPU support
+Make sure that [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) is installed
 ```sh
 nvidia-docker run -it --rm -p 8888:8888 -v `pwd`:/src udacity/carnd-term1-starter-kit
 ```
-Make sure that [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) is installed
 
-A link with an access token should be outputed to the console.
+Go to [localhost:8888](http://localhost:8888/) and insert the token printed to the console
 
 ---
 
