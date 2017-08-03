@@ -37,6 +37,7 @@ Make sure that [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) is insta
 
 A link with an access token should be outputed to the console.
 
+---
 
 ### Quick links
 
@@ -44,6 +45,8 @@ A link with an access token should be outputed to the console.
 
 [Write up](https://htmlpreview.github.io/?https://github.com/Charles-Catta/German-Traffic-Sign-Classifier/blob/master/writeup.html)
 
-### Example outputs
+---
+
+## Example outputs
 ![softmax_prediction](https://github.com/Charles-Catta/German-Traffic-Sign-Classifier/raw/master/img/softmax_preds_0.png)
 ![softmax_prediction](https://github.com/Charles-Catta/German-Traffic-Sign-Classifier/raw/master/img/softmax_preds_1.png)
