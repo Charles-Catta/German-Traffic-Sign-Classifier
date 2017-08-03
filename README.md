@@ -43,3 +43,7 @@ A link with an access token should be outputed to the console.
 [Code](https://nbviewer.jupyter.org/github/Charles-Catta/German-Traffic-Sign-Classifier/blob/master/Traffic_Sign_Classifier.ipynb) (This is a jupyter notebook)
 
 [Write up](https://htmlpreview.github.io/?https://github.com/Charles-Catta/German-Traffic-Sign-Classifier/blob/master/writeup.html)
+
+### Example outputs
+![softmax_prediction](https://github.com/Charles-Catta/German-Traffic-Sign-Classifier/raw/master/img/softmax_preds_0.png)
+![softmax_prediction](https://github.com/Charles-Catta/German-Traffic-Sign-Classifier/raw/master/img/softmax_preds_1.png)
